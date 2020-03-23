@@ -51,6 +51,8 @@ type BaseSettings = {
   useBulkHeaderEditor: boolean,
   useBulkParametersEditor: boolean,
   validateSSL: boolean,
+  caBundle: string,
+  caBundlePath: string,
   pluginConfig: PluginConfigMap,
 
   // Feature flags
@@ -104,6 +106,8 @@ export function init(): BaseSettings {
     useBulkHeaderEditor: false,
     useBulkParametersEditor: false,
     validateSSL: true,
+    caBundle: '',
+    caBundlePath: '',
 
     // Feature flags
     enableSyncBeta: false,

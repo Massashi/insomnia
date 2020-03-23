@@ -20,6 +20,7 @@ import CheckForUpdatesButton from '../check-for-updates-button';
 import { setFont } from '../../../plugins/misc';
 import * as session from '../../../account/session';
 import Tooltip from '../tooltip';
+import FileInputButton from '../base/file-input-button';
 
 // Font family regex to match certain monospace fonts that don't get
 // recognized as monospace
@@ -76,6 +77,10 @@ class General extends React.PureComponent<Props, State> {
     }
 
     return this.props.updateSetting(el.name, value);
+  }
+
+  async _handleCaBundlePathChange(path: string) {
+    return this.props.updateSetting('caBundlePath', path);
   }
 
   async _handleToggleMenuBar(e: SyntheticEvent<HTMLInputElement>) {
@@ -156,6 +161,44 @@ class General extends React.PureComponent<Props, State> {
 
   renderNumberSetting(label: string, name: string, help: string, props: Object) {
     return this.renderTextSetting(label, name, help, { ...props, type: 'number' });
+  }
+
+  renderCertificateBundleSetting() {
+    const { settings } = this.props;
+
+    const defaultOption = <option value="default">-- System Default --</option>;
+    const windowsOption = <option value="windowsCertStore">Windows Certificate Store</option>;
+    const userOption = <option value="userProvided">User Provided Bundle</option>;
+
+    const options = [defaultOption, isWindows() ? windowsOption : null, userOption];
+
+    return (
+      <React.Fragment>
+        <div className="form-control form-control--outlined">
+          <label>
+            Certificate Authority Bundle
+            <select name="caBundle" value={settings.caBundle} onChange={this._handleUpdateSetting}>
+              {options}
+            </select>
+          </label>
+        </div>
+
+        {settings.caBundle === 'userProvided' && (
+          <div className="form-control form-control--outlined">
+            <label>
+              Certificate Authority Bundle File
+              <FileInputButton
+                className="btn btn--clicky"
+                name="CA Bundle"
+                onChange={this._handleCaBundlePathChange}
+                path={settings.caBundlePath}
+                showFileName
+              />
+            </label>
+          </div>
+        )}
+      </React.Fragment>
+    );
   }
 
   render() {
@@ -302,10 +345,12 @@ class General extends React.PureComponent<Props, State> {
         <hr className="pad-top" />
 
         <h2>Request / Response</h2>
-
+        <div>
+          {this.renderBooleanSetting('Validate certificates', 'validateSSL', '')}
+          {this.renderCertificateBundleSetting()}
+        </div>
         <div className="row-fill row-fill--top">
           <div>
-            {this.renderBooleanSetting('Validate certificates', 'validateSSL', '')}
             {this.renderBooleanSetting('Follow redirects', 'followRedirects', '')}
             {this.renderBooleanSetting(
               'Filter responses by environment',
