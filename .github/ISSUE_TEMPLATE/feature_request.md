@@ -1,10 +1,9 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: "[Feature Request] Short issue title"
-labels: ''
-assignees: ''
-
+title: Short issue title
+labels: "Feature \U0001F381"
+assignees: nijikokun
 ---
 
 **Is your feature request related to a problem? Please describe.**
