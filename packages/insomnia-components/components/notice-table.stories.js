@@ -29,3 +29,17 @@ export const _default = () => (
     onVisibilityToggle={v => console.log('Visible?', v)}
   />
 );
+
+export const manyItems = () => {
+  const notices = [];
+  for (let i = 0; i < 100; i++) {
+    notices.push({ type: 'error', line: i, message: 'This is message ' + i });
+  }
+  return (
+    <NoticeTable
+      notices={notices}
+      onClick={n => window.alert(n.message)}
+      onVisibilityToggle={v => console.log('Visible?', v)}
+    />
+  );
+};
