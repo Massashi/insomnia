@@ -26,7 +26,7 @@ export function getSecurity(
 
 export function getName(
   obj: OpenApi3Spec | OA3Operation,
-  defaultValue?: string = 'openapi',
+  defaultValue: string = 'openapi',
   slugifyOptions?: { replacement: string, lower: boolean },
 ): string {
   let name: string = '';
